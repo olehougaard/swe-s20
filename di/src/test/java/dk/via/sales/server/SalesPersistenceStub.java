@@ -18,9 +18,7 @@ class SalesPersistenceStub implements SalesPersistence {
 	private HashMap<String, Customer> customers;
 	
 	public SalesPersistenceStub() {
-		new ArrayList<>();
 		customers = new HashMap<>();
-		new HashMap<>();
 		orderManager = new OrderManagerStub();
 	}
 	

@@ -26,9 +26,9 @@ public class MessageViewModelTest extends EasyMockSupport {
 
     @Test
     public void updateDisplaysNumberOfUsers() {
-        property.set("Number of users: 2");
-        replayAll();
-        viewModel.update();
+        property.set("Number of users: 2"); // Expected action
+        replayAll(); // Done setting up expectations. Run the actual test code.
+        viewModel.update(); // Actual test code
         verifyAll();
     }
 }

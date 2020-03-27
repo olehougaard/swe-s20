@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS dk.via.sales CASCADE;
-CREATE SCHEMA dk.via.sales;
+DROP SCHEMA IF EXISTS sales CASCADE;
+CREATE SCHEMA sales;
 
-SET search_path TO dk.via.sales;
+SET search_path TO sales;
 
 CREATE TABLE Item (
 	item_number SERIAL PRIMARY KEY,

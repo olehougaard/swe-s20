@@ -18,7 +18,17 @@ public class OrderServerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		orderServer = new OrderServer();
+		customer = new Customer("hello@example.com", "Hello World");
+		SalesPersistenceStub stub = new SalesPersistenceStub();
+		stub.createCustomer(customer);
+		ArrayList<OrderLine> lines = new ArrayList<>();
+		lines.add(new OrderLine(2, new Item(1, "Scissors", new Money(12, "USD"))));
+		lines.add(new OrderLine(1, new Item(4, "Drill", new Money(82, "USD"))));
+		stub.createOrderForCustomer(customer, "USD", lines);
+		lines = new ArrayList<>();
+		lines.add(new OrderLine(7, new Item(1, "Scissors", new Money(12, "USD"))));
+		stub.createOrderForCustomer(customer, "USD", lines);
+		orderServer = new OrderServer(stub);
 		customer = orderServer.getCustomerByEmail("hello@example.com");
 	}
 
@@ -34,36 +44,7 @@ public class OrderServerTest {
 
 	@Test(expected = RemoteException.class)
 	public void totalForCustomerThrowsRemoteExceptionOnSQLException() throws Exception {
-		// ???
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-	public void integrationSetUp() throws Exception {
-		orderServer = new OrderServer();
-		customer = orderServer.getCustomerByEmail("hello@example.com");
-	}
-
-
-	public void fullSetUp() throws Exception{
-		orderServer = new OrderServer();
-		customer = new Customer("hello@example.com", "Hello World");
-		orderServer.createCustomer(customer);
-		ArrayList<OrderLine> lines = new ArrayList<>();
-		lines.add(new OrderLine(2, new Item(1, "Scissors", new Money(12, "USD"))));
-		lines.add(new OrderLine(1, new Item(4, "Drill", new Money(82, "USD"))));
-		orderServer.createOrderForCustomer(customer, "USD", lines);
-		lines = new ArrayList<>();
-		lines.add(new OrderLine(7, new Item(1, "Scissors", new Money(12, "USD"))));
-		orderServer.createOrderForCustomer(customer, "USD", lines);
+		OrderServer server = new OrderServer(new SalesPersistenceFailureStub());
+		server.getTotalAmountForCustomer(customer);
 	}
 }
